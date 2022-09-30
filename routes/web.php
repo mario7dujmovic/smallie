@@ -13,6 +13,8 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->group(['prefix' => 'api'], function () use ($router) {
+    //users
+    $router->post('/user', ['uses' => 'UserController@create']);
+    $router->get('/token', ['uses' => 'UserController@authenticate']);
 });

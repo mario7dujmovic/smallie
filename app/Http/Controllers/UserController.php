@@ -22,9 +22,15 @@ class UserController extends Controller
             $message = "Success";
             $code = 200;
         } catch (Exception $e) {
-            //we don't want to give much info here, because we don't want someone mining for existing users or something like that
+            $code = $e->getCode();
             $message = $e->getMessage();
-            $code = 400;
+            if ($code > 1000) { //this block of code handles database exceptions
+                $message = "Database error";
+                if ($code == 1045) {
+                    $message = "Could not connect to the database.";
+                }
+                $code = 400;
+            }
         }
         return response()->json($message, $code);
     }
@@ -53,8 +59,15 @@ class UserController extends Controller
                 $code = 401;
             }
         } catch (Exception $e) {
+            $code = $e->getCode();
             $message = $e->getMessage();
-            $code = 400;
+            if ($code > 1000) { //this block of code handles database exceptions
+                $message = "Database error";
+                if ($code == 1045) {
+                    $message = "Could not connect to the database.";
+                }
+                $code = 400;
+            }
         }
         return response()->json($message, $code);
     }
