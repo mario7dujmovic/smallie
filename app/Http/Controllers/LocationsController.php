@@ -3,19 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Location;
+use App\Repositories\LocationsRepository;
+use App\Services\LocationsService;
 use App\Services\UserService;
+use Exception;
 
-class LocationController extends Controller
+class LocationsController extends Controller
 {
     private ?Location $location = null;
     private $user = null;
     private ?UserService $userService = null;
+    private ?LocationsRepository $locationsRepository = null;
+    private ?LocationsService $locationsService = null;
 
     public function create()
     {
-        $this->hydrateLocation($this->getData());
-        // got to the point where the data hydrates right
-        echo print_r($this->getLocation(), true);
+        try {
+            $this->hydrateLocation($this->getData());
+            $this->getLocationsService()->addLocation($this->getLocation());
+            $code = 201;
+            $message = serialize($this->getLocation());
+        } catch (Exception $e) {
+            $code = $e->getCode();
+            $message = $e->getMessage();
+            if ($code > 1000) { //this block of code handles database exceptions
+                $message = "Database error";
+                if ($code == 1045) {
+                    $message = "Could not connect to the database.";
+                }
+                $code = 400;
+            }
+        }
+        return response()->json($message, $code);
     }
 
     public function hydrateLocation($data)
@@ -88,5 +107,41 @@ class LocationController extends Controller
         $this->userService = $userService;
     }
 
+    /**
+     * @return LocationsRepository|null
+     */
+    public function getLocationsRepository(): ?LocationsRepository
+    {
+        if ($this->locationsRepository == null) {
+            $this->locationsRepository = new LocationsRepository();
+        }
+        return $this->locationsRepository;
+    }
 
+    /**
+     * @param LocationsRepository|null $locationsRepository
+     */
+    public function setLocationsRepository(?LocationsRepository $locationsRepository): void
+    {
+        $this->locationsRepository = $locationsRepository;
+    }
+
+    /**
+     * @return LocationsService|null
+     */
+    public function getLocationsService(): ?LocationsService
+    {
+        if ($this->locationsService == null) {
+            $this->locationsService = new LocationsService($this->getLocationsRepository());
+        }
+        return $this->locationsService;
+    }
+
+    /**
+     * @param LocationsService|null $locationsService
+     */
+    public function setLocationsService(?LocationsService $locationsService): void
+    {
+        $this->locationsService = $locationsService;
+    }
 }

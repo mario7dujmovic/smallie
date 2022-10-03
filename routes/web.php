@@ -19,5 +19,5 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('/token', ['uses' => 'UserController@authenticate']);
 
     //locations
-    $router->post('/locations', ['uses' => 'LocationController@create']);
+    $router->post('/locations', ['uses' => 'LocationsController@create']);
 });
