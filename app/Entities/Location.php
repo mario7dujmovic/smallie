@@ -13,6 +13,22 @@ class Location
     private $updatedAt = null;
 
     /**
+     * @return false|string
+     */
+    public function getJson()
+    {
+        return json_encode([
+            'id' => $this->id,
+            'user_id' => $this->userId,
+            'name' => $this->name,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt
+        ]);
+    }
+
+    /**
      * @return null
      */
     public function getId()
