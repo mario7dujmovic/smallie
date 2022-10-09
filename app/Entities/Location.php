@@ -13,11 +13,11 @@ class Location
     private $updatedAt = null;
 
     /**
-     * @return false|string
+     * @return array
      */
-    public function getJson()
+    public function getArray()
     {
-        return json_encode([
+        return [
             'id' => $this->id,
             'user_id' => $this->userId,
             'name' => $this->name,
@@ -25,7 +25,7 @@ class Location
             'longitude' => $this->longitude,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt
-        ]);
+        ];
     }
 
     /**
