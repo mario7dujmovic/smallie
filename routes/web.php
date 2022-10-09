@@ -21,4 +21,5 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     //locations
     $router->post('/locations', ['uses' => 'LocationsController@create']);
     $router->get('/locations/{id}', ['uses' => 'LocationsController@get']);
+    $router->delete('/locations/{id}', ['uses' => 'LocationsController@delete']);
 });
