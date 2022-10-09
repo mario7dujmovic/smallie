@@ -37,6 +37,25 @@ class LocationsController extends Controller
         return response()->json($message, $code);
     }
 
+    public function get($id)
+    {
+        try {
+            $message = $this->getLocationsService()->getLocation($id);
+            $code = 201;
+        } catch (Exception $e) {
+            $code = $e->getCode();
+            $message = $e->getMessage();
+            if ($code > 1000) { //this block of code handles database exceptions
+                $message = "Database error";
+                if ($code == 1045) {
+                    $message = "Could not connect to the database.";
+                }
+                $code = 400;
+            }
+        }
+        return response()->json($message, $code);
+    }
+
     public function hydrateLocation($data)
     {
         if (!isset($data->user_id)) $data->user_id = $this->getUser()->user_id;
