@@ -19,6 +19,11 @@ class LocationsService
         return $this->getLocationsRepository()->getLocation($id);
     }
 
+    public function deleteLocation($id)
+    {
+        return $this->getLocationsRepository()->deleteLocation($id);
+    }
+
     public function addLocation(Location $location)
     {
         $dataArray = $this->createDataArray($location);
