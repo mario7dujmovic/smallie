@@ -22,4 +22,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('/locations', ['uses' => 'LocationsController@create']);
     $router->get('/locations/{id}', ['uses' => 'LocationsController@get']);
     $router->delete('/locations/{id}', ['uses' => 'LocationsController@delete']);
+
+    //catches
+    $router->post('/catches', ['uses' => 'CatchesController@create']);
+    $router->get('/catches/{id}', ['uses' => 'CatchesController@get']);
+    $router->delete('/catches/{id}', ['uses' => 'CatchesController@delete']);
 });
