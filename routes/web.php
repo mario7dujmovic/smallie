@@ -19,12 +19,12 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('/token', ['uses' => 'UserController@authenticate']);
 
     //locations
-    $router->post('/locations', ['uses' => 'LocationsController@create']);
-    $router->get('/locations/{id}', ['uses' => 'LocationsController@get']);
-    $router->delete('/locations/{id}', ['uses' => 'LocationsController@delete']);
+    $router->post('/locations', ['uses' => 'LocationsController@create', 'middleware' => ['auth']]);
+    $router->get('/locations/{id}', ['uses' => 'LocationsController@get', 'middleware' => ['auth']]);
+    $router->delete('/locations/{id}', ['uses' => 'LocationsController@delete', 'middleware' => ['auth']]);
 
     //catches
-    $router->post('/catches', ['uses' => 'CatchesController@create']);
-    $router->get('/catches/{id}', ['uses' => 'CatchesController@get']);
-    $router->delete('/catches/{id}', ['uses' => 'CatchesController@delete']);
+    $router->post('/catches', ['uses' => 'CatchesController@create', 'middleware' => ['auth']]);
+    $router->get('/catches/{id}', ['uses' => 'CatchesController@get', 'middleware' => ['auth']]);
+    $router->delete('/catches/{id}', ['uses' => 'CatchesController@delete', 'middleware' => ['auth']]);
 });
