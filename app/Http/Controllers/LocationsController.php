@@ -56,6 +56,26 @@ class LocationsController extends Controller
         return response()->json($message, $code);
     }
 
+    public function getByQueryString()
+    {
+        try {
+            $queryString = $this->hydrateQueryString();
+            $message = $this->getLocationsService()->getLocationsByQueryString($queryString);
+            $code = 201;
+        } catch (Exception $e) {
+            $code = $e->getCode();
+            $message = $e->getMessage();
+            if ($code > 1000) { //this block of code handles database exceptions
+                $message = "Database error";
+                if ($code == 1045) {
+                    $message = "Could not connect to the database.";
+                }
+                $code = 400;
+            }
+        }
+        return response()->json($message, $code);
+    }
+
     public function delete($id)
     {
         try {
@@ -182,5 +202,17 @@ class LocationsController extends Controller
     public function setLocationsService(?LocationsService $locationsService): void
     {
         $this->locationsService = $locationsService;
+    }
+
+    /**
+     * @return array
+     */
+    private function hydrateQueryString(): array
+    {
+        if($this->getRequest()->has('name')) {
+            return ['name' => $this->getRequest()->get('name')];
+        }
+        return [];
+
     }
 }

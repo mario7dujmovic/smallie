@@ -19,6 +19,11 @@ class LocationsService
         return $this->getLocationsRepository()->getLocation($id);
     }
 
+    public function getLocationsByQueryString($queryString)
+    {
+        return $this->getLocationsRepository()->getLocationsByQueryString($queryString);
+    }
+
     public function deleteLocation($id)
     {
         return $this->getLocationsRepository()->deleteLocation($id);

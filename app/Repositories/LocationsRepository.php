@@ -9,6 +9,15 @@ class LocationsRepository extends AbstractRepository
         return $this->getDb()::table('locations')->where('id', $id)->first();
     }
 
+    public function getLocationsByQueryString($queryString)
+    {
+        $query = $this->getDb()::table('locations');
+        foreach($queryString as $key => $value) {
+            $query->where($key, 'like', '%' . $value . '%');
+        }
+        return $query->get();
+    }
+
     public function deleteLocation($id)
     {
         return $this->getDb()::table('locations')->where('id', $id)->delete();
