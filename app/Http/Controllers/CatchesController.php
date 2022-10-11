@@ -20,7 +20,8 @@ class CatchesController extends Controller
     {
         try {
             $this->hydrateCatch($this->getData());
-            $this->getCatchesService()->insertCatches($this->getCatch());
+            $id = $this->getCatchesService()->insertCatches($this->getCatch());
+            $this->getCatch()->setId($id);
             $code = 201;
             $message = $this->getCatch()->getArray();
         } catch (Exception $e) {
@@ -83,10 +84,10 @@ class CatchesController extends Controller
         if (!isset($data->updated_at)) $data->updated_at = null;
         $this->getCatch()->setUserId($data->user_id);
         $this->getCatch()->setName($data->name);
-        $this->getCatch()->setWeight($data->weight);
-        $this->getCatch()->setLength($data->length);
-        $this->getCatch()->setImgUrl($data->img_url);
-        $this->getCatch()->setLocationId($data->location_id);
+        $this->getCatch()->setWeight($data->weight  ?? null);
+        $this->getCatch()->setLength($data->length ?? null);
+        $this->getCatch()->setImgUrl($data->img_url ?? null);
+        $this->getCatch()->setLocationId($data->location_id ?? null);
         $this->getCatch()->setCreatedAt($data->created_at);
         $this->getCatch()->setUpdatedAt($data->updated_at);
     }
