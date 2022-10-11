@@ -21,6 +21,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     //locations
     $router->post('/locations', ['uses' => 'LocationsController@create', 'middleware' => ['auth']]);
     $router->get('/locations/{id}', ['uses' => 'LocationsController@get', 'middleware' => ['auth']]);
+    $router->get('/locations', ['uses' => 'LocationsController@getByQueryString', 'middleware' => ['auth']]);
     $router->delete('/locations/{id}', ['uses' => 'LocationsController@delete', 'middleware' => ['auth']]);
 
     //catches
