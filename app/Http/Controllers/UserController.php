@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    private $userService = null;
+    private ?UserService $userService = null;
 
     public function create()
     {

@@ -21,7 +21,7 @@ class LocationsController extends Controller
         try {
             $this->hydrateLocation($this->getData());
             $this->getLocationsService()->addLocation($this->getLocation());
-            $code = 201;
+            $code = 200;
             $message = $this->getLocation()->getArray();
         } catch (Exception $e) {
             $code = $e->getCode();
