@@ -57,6 +57,4 @@ class LocationsService
     {
         $this->locationsRepository = $locationsRepository;
     }
-
-
 }
